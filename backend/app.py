@@ -8,13 +8,13 @@ def get_db_connection():
         host="localhost",
         user="root",
         password="",
-        database="csnoteselling"
+        database="noteselling-wirpl"
     )
 
 # API untuk mengambil data
 st.header("API Backend Streamlit")
 if st.button("Tampilkan Data"):
     conn = get_db_connection()
-    df = pd.read_sql("SELECT * FROM catatan", conn)
+    df = pd.read_sql("SELECT * FROM materials", conn)
     st.write(df)
 
