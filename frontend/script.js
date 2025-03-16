@@ -1,6 +1,13 @@
-
-document.getElementById("fetchData").addEventListener("click", async () => {
-    const response = await fetch("http://127.0.0.1:8501/get_data");
-    const data = await response.json();
-    document.getElementById("dataContainer").innerText = JSON.stringify(data, null, 2);
+document.getElementById("fetchData").addEventListener("click", function() {
+    fetch("http://localhost:8501/materials")  // Pastikan Flask berjalan
+    .then(response => response.json())
+    .then(data => {
+        let output = "<ul>";
+        data.forEach(note => {
+            output += `<li>${note.title} - Rp${note.price}</li>`;
+        });
+        output += "</ul>";
+        document.getElementById("output").innerHTML = output;
+    })
+    .catch(error => console.error("Error:", error));
 });

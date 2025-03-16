@@ -1,8 +1,7 @@
 import streamlit as st
-import pandas as pd
 import mysql.connector
 
-# Koneksi database
+# Konfigurasi koneksi database
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
@@ -11,10 +10,18 @@ def get_db_connection():
         database="noteselling-wirpl"
     )
 
-# API untuk mengambil data
-st.header("API Backend Streamlit")
-if st.button("Tampilkan Data"):
-    conn = get_db_connection()
-    df = pd.read_sql("SELECT * FROM materials", conn)
-    st.write(df)
+# Streamlit UI
+st.title("CS Note Selling - Backend")
+st.write("Data dari Database:")
 
+# Fetch data dari database
+conn = get_db_connection()
+cursor = conn.cursor(dictionary=True)
+cursor.execute("SELECT * FROM materials")
+data = cursor.fetchall()
+
+for row in data:
+    st.write(f"**{row['title']}** - {row['price']}")
+
+cursor.close()
+conn.close()
